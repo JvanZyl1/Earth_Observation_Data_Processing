@@ -12,3 +12,5 @@ outdir = '/home/luss/my_shared_folder/test_l1b/'
 # Initialise the ISM
 myL1b = l1b(auxdir, indir, outdir)
 myL1b.processModule()
+
+

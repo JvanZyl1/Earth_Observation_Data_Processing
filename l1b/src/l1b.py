@@ -53,10 +53,9 @@ class l1b(initL1b):
 
         self.logger.info("End of the L1B Module!")
 
-
     def equalization(self, toa, eq_add, eq_mult):
         """
-        Equlization. Apply an offset and a gain.
+        Equalization. Apply an offset and a gain.
         :param toa: TOA in DN
         :param eq_add: Offset in DN
         :param eq_mult: Gain factor, adimensional
@@ -76,8 +75,13 @@ class l1b(initL1b):
         """
         #TODO
         self.logger.debug('Sanity check. TOA in radiances after gain application ' + str(toa[1,-1]) + ' [mW/m2/sr]')
-        toa = toa*gain #I'm not sure if this is correct
-        return toa
+        toa = toa*gain #Shouldn't toa be toa_out?
+        return toa #Should toa actually be toa_l1b?
 
-    #def plotL1bToa(self, toa_l1b, outputdir, band):
-    #    #TODO
+  #  def plotL1bToa(self, toa_l1b, outputdir, band):
+   #     plt.plot(toa, act???, toa_out, act???)
+    #    plt.xlabel("ACT Pixel [-]")
+     #   plt.ylabel("TOA [mw/m2/sr]")
+      #  plt.title("Effect of the Equalization for the", band)
+       # plt.show()
+        #TODO
