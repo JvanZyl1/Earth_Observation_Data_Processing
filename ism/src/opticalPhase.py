@@ -92,7 +92,9 @@ class opticalPhase(initIsm):
         :param Tr: Optical transmittance [-]
         :return: TOA image in irradiances [mW/m2]
         """
-        # TODO
+        omega = Tr*(pi/4)*((D/f)**2) #Equation page 34 of the reader : EODP-ALG-ISM-1020
+        toa = toa * omega #Radiance -> Irradiance
+        # TODO - DONE (8th October 2021)
         return toa
 
 
@@ -104,6 +106,7 @@ class opticalPhase(initIsm):
         :return: TOA image in irradiances [mW/m2]
         """
         # TODO
+
         return toa_ft
 
     def spectralIntegration(self, sgm_toa, sgm_wv, band):

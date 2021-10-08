@@ -91,7 +91,26 @@ class mtf:
         :return fnAct: 1D normalised frequencies 2D ACT (f/(1/w))
         :return fnAlt: 1D normalised frequencies 2D ALT (f/(1/w))
         """
-        #TODO
+        infinitesimal = 10**(-10)
+        fstepAlt = 1/nlines/w
+        fstepAct = 1/ncolumns/w
+        fAlt = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAlt)
+        fAct = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAct) #Reader page 63
+        eps_cutoff = D/(lambd*focal) # Optical cutoff frequency
+        fr_factor (1/w)/eps_cutoff # As said in reader, shown below:
+        #For the 2D relative frequencies, multiply by a factor (1/w)/ξc. This way we get the relative frequencies but with the same sampling than the fn2D calculated above.
+        w_inv = 1/w
+        fnAct = np.divide(fAct, w_inv) # The normalized frequencies 2D ACT
+        fnAlt = np.divide(fAlt, w_inv) # The normalized frequencies 2D ALT
+        frAct = np.divide(fAct, fr_factor) #The relative frequencies 2D ACT
+        frAlt = np.divide(fAlt, fr_factor) #The relative frequencies 2D ALT
+
+        [fnAltxx, fnActxx] = np.meshgrid(fnAlt, fnAct, indexing='ij')  # Please use ‘ij’ indexing or you will get the transpose
+        fn2D = np.sqrt(fnAltxx * fnAltxx + fnActxx * fnActxx)
+
+        [frAltxx, frActxx] = np.meshgrid(frAlt, frAct, indexing='ij')
+        fr2D = np.sqrt(frAltxx * frAltxx + frActxx * frActxx)
+        #TODO - DONE (8th October 2021)
         return fn2D, fr2D, fnAct, fnAlt
 
     def mtfDiffract(self,fr2D):
