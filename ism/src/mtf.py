@@ -69,7 +69,7 @@ class mtf:
 
         # Calculate the System MTF
         self.logger.debug("Calculation of the Sysmtem MTF by multiplying the different contributors")
-        Hsys = #TODO
+        Hsys = Hdiff*Hwfe*Hdefoc*Hdet*Hsmear*Hmotion                                           #TODO
 
         # Plot cuts ACT/ALT of the MTF
         self.plotMtf(Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band)
@@ -100,10 +100,10 @@ class mtf:
         fr_factor (1/w)/eps_cutoff # As said in reader, shown below:
         #For the 2D relative frequencies, multiply by a factor (1/w)/ξc. This way we get the relative frequencies but with the same sampling than the fn2D calculated above.
         w_inv = 1/w
-        fnAct = np.divide(fAct, w_inv) # The normalized frequencies 2D ACT
-        fnAlt = np.divide(fAlt, w_inv) # The normalized frequencies 2D ALT
-        frAct = np.divide(fAct, fr_factor) #The relative frequencies 2D ACT
-        frAlt = np.divide(fAlt, fr_factor) #The relative frequencies 2D ALT
+        fnAct = np.divide(fAct, w_inv) # The normalized frequencies 1D ACT
+        fnAlt = np.divide(fAlt, w_inv) # The normalized frequencies 1D ALT
+        frAct = np.divide(fAct, fr_factor) #The relative frequencies 1D ACT
+        frAlt = np.divide(fAlt, fr_factor) #The relative frequencies 1D ALT
 
         [fnAltxx, fnActxx] = np.meshgrid(fnAlt, fnAct, indexing='ij')  # Please use ‘ij’ indexing or you will get the transpose
         fn2D = np.sqrt(fnAltxx * fnAltxx + fnActxx * fnActxx)
@@ -120,6 +120,10 @@ class mtf:
         :return: diffraction MTF
         """
         #TODO
+        #Hdiff = 1 - fr2D
+        Hdiff = 2/pi * (np.acos(fr2D) - fr2D*(1 - np.power(fr2D,2))**0.5)
+        #if Hdiff[fr2D*fr2D>1] = 0:                                 #This needs to be correctly implemented
+        #    print("MTF check is completed")
         return Hdiff
 
 
@@ -132,7 +136,15 @@ class mtf:
         :param D: Telescope diameter [m]
         :return: Defocus MTF
         """
-        #TODO
+        coe = pi*defocus
+        minus = np.add(fr2D, -1)
+        b = np.multiply(fr2D, minus)
+        x = np.multiply(coe, b)
+        #x = np.multiply((pi*defocus), (np.multiply(fr2D, (np.add(fr2D,-1))))) # This is for a more consisess equation
+        #Bes_J1 = (np.divide(x,2)) - (np.divide((np.power(x,3)),16)) + (np.divide((np.power(x,5)),384)) - (np.divide((np.power(x,7)),18432))
+        #Note that f/D hasn't been used
+        Bes_J1 = j1(x)
+        Hdefoc = 2*np.divide(Bes_J1, x) #Pages 51-52
         return Hdefoc
 
     def mtfWfeAberrations(self, fr2D, lambd, kLF, wLF, kHF, wHF):
@@ -146,6 +158,8 @@ class mtf:
         :param wHF: RMS of high-frequency wavefront errors [m]
         :return: WFE Aberrations MTF
         """
+        inp = -fr2D*(1-fr2D)*((kLF*((wLF/lambd)**2)) + (kHF*((wHF/lambd)**2)))
+        Hwfe = np.exp(inp)
         #TODO
         return Hwfe
 
@@ -156,6 +170,7 @@ class mtf:
         :return: detector MTF
         """
         #TODO
+        Hdet = np.abs(np.sinc(fn2D))
         return Hdet
 
     def mtfSmearing(self, fnAlt, ncolumns, ksmear):
@@ -166,6 +181,9 @@ class mtf:
         :param ksmear: Amplitude of low-frequency component for the motion smear MTF in ALT [pixels]
         :return: Smearing MTF
         """
+        # Calculate the 1D MTF in the ALT direction (using fn2D, size n-lines), and then repeat it in the ACT direction with a repmat
+        Hsmear_alt = np.sinc(ksmear*fnAlt)
+        Hsmear = repmat(Hsmear_alt, ncolumns, 1)                    #Note for self, check repmat is working, as first time using function.
         #TODO
         return Hsmear
 
@@ -176,6 +194,8 @@ class mtf:
         :param kmotion: Amplitude of high-frequency component for the motion smear MTF in ALT and ACT
         :return: detector MTF
         """
+        unp = np.multiply(kmotion, fn2D)
+        Hmotion = np.sinc(unp)
         #TODO
         return Hmotion
 
@@ -197,6 +217,60 @@ class mtf:
         :param band: band
         :return: N/A
         """
-        #TODO
+        H = np.array([Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys])
+        #Find the Nyquist frequency
 
+
+        #System MTF - Slice ACT & ACT
+        # (Alt, Act) - Alt is rows, Act is columns
+        fn_mid = fnAlt[:, mid_row]
+        mid_row = nlines / 2
+        mid_col = ncolumns /2
+        H_mid_act = []
+        H_mid_alt = []
+        for i in range(len(H)):
+            Hi = H[i]
+            H_mid_alt.append(Hi[:, mid_row])
+            H_mid_act.append(Hi[mid_col, :])
+
+        #Plot of the ACT Slice
+        plt.plot(fn_mid, H_mid_act[0], fn_mid, H_mid_act[1], fn_mid, H_mid_act[2], fn_mid, H_mid_act[3], fn_mid, H_mid_act[4], fn_mid, H_mid_act[5], fn_mid, H_mid_act[6])
+        plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys")
+        plt.xlabel("Spatial frequencies f/(1/w) [-]")
+        plt.ylabel("MTF")
+        plt.title("System MTF - slice ACT")
+
+        #Plot of the ALT Slice
+        plt.plot(fn_mid, H_mid_alt[0], fn_mid, H_mid_alt[1], fn_mid, H_mid_alt[2], fn_mid, H_mid_alt[3], fn_mid,
+                 H_mid_alt[4], fn_mid, H_mid_alt[5], fn_mid, H_mid_alt[6])
+        plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys")
+        plt.xlabel("Spatial frequencies f/(1/w) [-]")
+        plt.ylabel("MTF")
+        plt.title("System MTF - slice ALT")
+        #System MTF - Contour
+        X,Y = np.meshgrid(fnAct, fnAlt)
+        Z = Hsys
+        plt.contour(X, Y, Z)
+        plt.colorbar()
+        plt.xlabel("ACT")
+        plt.ylabel("ALT")
+        plt.title("System MTF for VNIR-0")
+        #TODO - do for different bands
+
+#Pages 63
+
+        # dim = np.shape(fnAlt)
+        # len_row = dim[1]                        #Checks how many rows there are
+        # mid_row_ind = len_row/2
+        # bool = mid_row_ind.is_integer()
+        # if bool == False:                      #Checks if it's not an integer
+        #    mid_row_ind = np.round(mid_row_ind)             #If a not, rounds to an integer
+
+        # Hdiff_mid = Hdiff[:, mid_row]
+        # Hdefoc_mid = Hdefoc[:, mid_row]
+        # Hwfe_mid = Hwfe[:, mid_row]
+        # Hdet_mid = Hdet[:, mid_row]
+        # Hsmear_mid = Hsmear[:, mid_row]
+        # Hmotion_mid = Hmotion[:, mid_row]
+        # Hsys_mid = Hsys[:, mid_row]
 
