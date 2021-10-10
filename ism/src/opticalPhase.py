@@ -132,6 +132,11 @@ class opticalPhase(initIsm):
         # TODO
 
         #1. Read the ISRF for it's band
-        Isrf = readIsrf("C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/EODP_TER_2021/EODP-TS-L1B/input/", "ism_toa_isrf_" +str(band))
+        Isrf = readIsrf("C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/eodp_students-master/auxiliary/isrf/", "ISRF_" +str(band))
+
+        #2. Normalizing the ISRF
+        Int_Isrf = np.sum(Isrf)
+        Isrf_n = np.divide(Isrf, Int_Isrf)
+
 
         return toa

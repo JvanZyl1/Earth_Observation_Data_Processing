@@ -249,7 +249,7 @@ class mtf:
         plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
         plt.xlabel("Spatial frequencies f/(1/w) [-]")
         plt.ylabel("MTF")
-        plt.title("System MTF - slice ACT, VNIR-",str(band))
+        plt.title("System MTF - slice ACT", band)
 
         #Plot of the ALT Slice
         plt.plot(fn_mid, H_mid_alt[0], fn_mid, H_mid_alt[1], fn_mid, H_mid_alt[2], fn_mid, H_mid_alt[3], fn_mid,
@@ -258,7 +258,7 @@ class mtf:
         plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
         plt.xlabel("Spatial frequencies f/(1/w) [-]")
         plt.ylabel("MTF")
-        plt.title("System MTF - slice ALT, VNIR", band)
+        plt.title("System MTF - slice ALT", band)
         #System MTF - Contour
         X,Y = np.meshgrid(fnAct, fnAlt)
         Z = Hsys
@@ -266,7 +266,7 @@ class mtf:
         plt.colorbar()
         plt.xlabel("ACT")
         plt.ylabel("ALT")
-        a = "System MTF for VNIR-"+str(band)
+        a = "System MTF for", band)
         plt.title(a)
 
         #plt.savefig(directory + 'a.png', dpi=300)
