@@ -71,8 +71,12 @@ class mtf:
         self.logger.debug("Calculation of the Sysmtem MTF by multiplying the different contributors")
         Hsys = Hdiff*Hwfe*Hdefoc*Hdet*Hsmear*Hmotion                                           #TODO
 
+        #Calculate the Nyquist frequency ---- SELF FUNCTION MADE
+        fNyq = self.fNyuq(pix_size)
+        self.logger.info("Calculation of the Nyquist frequency")
+
         # Plot cuts ACT/ALT of the MTF
-        self.plotMtf(Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band)
+        self.plotMtf(Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band, fNyq)
 
 
         return Hsys
@@ -199,7 +203,16 @@ class mtf:
         #TODO
         return Hmotion
 
-    def plotMtf(self,Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band):
+    def fNyuq(self, w):  #Self-Made frequency
+        """
+        Nyquist frequency calculation
+        :param w: pixel size [m]
+        :return: Nyquist freqency [-]
+        """
+        fNyq = 1/(2*w)
+        return fNyq
+
+    def plotMtf(self,Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys, nlines, ncolumns, fnAct, fnAlt, directory, band, fNyq):
         """
         Plotting the system MTF and all of its contributors
         :param Hdiff: Diffraction MTF
@@ -218,9 +231,6 @@ class mtf:
         :return: N/A
         """
         H = np.array([Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys])
-        #Find the Nyquist frequency
-
-
         #System MTF - Slice ACT & ACT
         # (Alt, Act) - Alt is rows, Act is columns
         fn_mid = fnAlt[:, mid_row]
@@ -235,18 +245,20 @@ class mtf:
 
         #Plot of the ACT Slice
         plt.plot(fn_mid, H_mid_act[0], fn_mid, H_mid_act[1], fn_mid, H_mid_act[2], fn_mid, H_mid_act[3], fn_mid, H_mid_act[4], fn_mid, H_mid_act[5], fn_mid, H_mid_act[6])
-        plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys")
+        plt.vlines(fNyq, 0, 1, colors = 'black', linestyles = 'dashed')
+        plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
         plt.xlabel("Spatial frequencies f/(1/w) [-]")
         plt.ylabel("MTF")
-        plt.title("System MTF - slice ACT")
+        plt.title("System MTF - slice ACT, VNIR-",str(band))
 
         #Plot of the ALT Slice
         plt.plot(fn_mid, H_mid_alt[0], fn_mid, H_mid_alt[1], fn_mid, H_mid_alt[2], fn_mid, H_mid_alt[3], fn_mid,
                  H_mid_alt[4], fn_mid, H_mid_alt[5], fn_mid, H_mid_alt[6])
-        plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys")
+        plt.vlines(fNyq, 0, 1, colors='black', linestyles='dashed')
+        plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
         plt.xlabel("Spatial frequencies f/(1/w) [-]")
         plt.ylabel("MTF")
-        plt.title("System MTF - slice ALT")
+        plt.title("System MTF - slice ALT, VNIR", band)
         #System MTF - Contour
         X,Y = np.meshgrid(fnAct, fnAlt)
         Z = Hsys
@@ -254,7 +266,11 @@ class mtf:
         plt.colorbar()
         plt.xlabel("ACT")
         plt.ylabel("ALT")
-        plt.title("System MTF for VNIR-0")
+        a = "System MTF for VNIR-"+str(band)
+        plt.title(a)
+
+        #plt.savefig(directory + 'a.png', dpi=300)
+
         #TODO - do for different bands
 
 #Pages 63

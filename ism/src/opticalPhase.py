@@ -1,4 +1,3 @@
-
 from ism.src.initIsm import initIsm
 from math import pi
 from ism.src.mtf import mtf
@@ -106,7 +105,20 @@ class opticalPhase(initIsm):
         :return: TOA image in irradiances [mW/m2]
         """
         # TODO
-
+        GE = fft2(toa)              #1. Converting the TOA to the frequency domain.
+        HE = fftshift(Hsys)         #2. Shift the zero frequency component to the center of the spectrum.
+        FE = GE*HE                  #3. Multiply the shifted system MTF with the TOA in the frequency domain.
+        toa_ft = ifft2(FE)          #4. The 2-dimensional inverse discrete Fourier Transform.
+        #5. Check that the imaginary part is neglible and keep only the real part
+        Imagi = np.imag(toa_ft)     #The imaginary components of the array
+        neglible = 0.5              #Creates a neglible value upper bound
+        infinitesmal = neglible * np.ones(np.shape(Imagi))   #Creates an array the size of "Imagi", with all components equal to "neglible"
+        Imag_Bol = np.less_equal(Imagi, infinitesmal)
+        Check = np.all(Imag_Bol)
+        if Check == True:
+            self.logger.info("The imaginary numbers of the TOA (after MTF is applied) are neglible, i.e. all are under", str(neglible))
+        else:
+            self.logger.info("The imaginary numbers of the TOA (after MTF is applied) aren't neglible, i.e. some are over", str(neglible))
         return toa_ft
 
     def spectralIntegration(self, sgm_toa, sgm_wv, band):
@@ -118,6 +130,8 @@ class opticalPhase(initIsm):
         :return: TOA image 2D in radiances [mW/m2]
         """
         # TODO
+
+        #1. Read the ISRF for it's band
+        Isrf = readIsrf("C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/EODP_TER_2021/EODP-TS-L1B/input/", "ism_toa_isrf_" +str(band))
+
         return toa
-
-
