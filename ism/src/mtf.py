@@ -95,13 +95,14 @@ class mtf:
         :return fnAct: 1D normalised frequencies 2D ACT (f/(1/w))
         :return fnAlt: 1D normalised frequencies 2D ALT (f/(1/w))
         """
+        print(D, "D", lambd, "lamd", focal, "focal")
         infinitesimal = 10**(-10)
         fstepAlt = 1/nlines/w
         fstepAct = 1/ncolumns/w
         fAlt = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAlt)
         fAct = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAct) #Reader page 63
         eps_cutoff = D/(lambd*focal) # Optical cutoff frequency
-        fr_factor = (1/w)/eps_cutoff # As said in reader, shown below:
+        fr_factor = eps_cutoff#(1/w)/eps_cutoff # As said in reader, shown below:
         #For the 2D relative frequencies, multiply by a factor (1/w)/ξc. This way we get the relative frequencies but with the same sampling than the fn2D calculated above.
         w_inv = 1/w
         fnAct = np.divide(fAct, w_inv) # The normalized frequencies 1D ACT
@@ -125,7 +126,16 @@ class mtf:
         """
         #TODO
         #Hdiff = 1 - fr2D
-        Hdiff = 2/pi * (np.arccos(fr2D) - fr2D*(1 - np.power(fr2D,2))**0.5)
+        Hdiffb = []
+        #print("1")
+        #print(fr2D)
+        #print("2")
+        for i in range(len(fr2D)):
+            Hdiff_a = 2/pi * (np.arccos(fr2D[i]) - fr2D[i]*(1 - np.power(fr2D[i],2))**0.5)
+            Hdiffb.append(Hdiff_a)
+        Hdiff = np.array(Hdiffb)
+        #print(np.shape(Hdiff))
+
         #if Hdiff[fr2D*fr2D>1] = 0:                                 #This needs to be correctly implemented
         #    print("MTF check is completed")
         return Hdiff
@@ -149,6 +159,7 @@ class mtf:
         #Note that f/D hasn't been used
         Bes_J1 = j1(x)
         Hdefoc = 2*np.divide(Bes_J1, x) #Pages 51-52
+        #print(np.shape(Hdefoc))
         return Hdefoc
 
     def mtfWfeAberrations(self, fr2D, lambd, kLF, wLF, kHF, wHF):
@@ -164,6 +175,7 @@ class mtf:
         """
         inp = -fr2D*(1-fr2D)*((kLF*((wLF/lambd)**2)) + (kHF*((wHF/lambd)**2)))
         Hwfe = np.exp(inp)
+        #print(np.shape(Hwfe))
         #TODO
         return Hwfe
 
@@ -175,6 +187,7 @@ class mtf:
         """
         #TODO
         Hdet = np.abs(np.sinc(fn2D))
+        #print(np.shape(Hdet))
         return Hdet
 
     def mtfSmearing(self, fnAlt, ncolumns, ksmear):
@@ -187,7 +200,9 @@ class mtf:
         """
         # Calculate the 1D MTF in the ALT direction (using fn2D, size n-lines), and then repeat it in the ACT direction with a repmat
         Hsmear_alt = np.sinc(ksmear*fnAlt)
-        Hsmear = repmat(Hsmear_alt, ncolumns, 1)                    #Note for self, check repmat is working, as first time using function.
+        Hsmeart = repmat(Hsmear_alt, ncolumns, 1)                    #Note for self, check repmat is working, as first time using function.
+        Hsmear = np.transpose(Hsmeart)  #THIS HAS BEEN CHANGED TO ALTER ARRAY SHAPE - CHECK !!!!
+        #print(np.shape(Hsmear))
         #TODO
         return Hsmear
 
@@ -200,6 +215,7 @@ class mtf:
         """
         unp = np.multiply(kmotion, fn2D)
         Hmotion = np.sinc(unp)
+        #print(np.shape(Hmotion))
         #TODO
         return Hmotion
 
@@ -231,28 +247,30 @@ class mtf:
         :return: N/A
         """
         H = np.array([Hdiff, Hdefoc, Hwfe, Hdet, Hsmear, Hmotion, Hsys])
+        #print(np.shape(H)): 7 H values of shape (2, 801) == (nlines, ncolumns)
         #System MTF - Slice ACT & ACT
         # (Alt, Act) - Alt is rows, Act is columns
-        fn_mid = fnAlt[:, mid_row]
-        mid_row = nlines / 2
-        mid_col = ncolumns /2
+        mid_row = round(nlines / 2)
+        mid_col = round(ncolumns /2)
+        fna_mid = fnAlt[mid_row]
         H_mid_act = []
         H_mid_alt = []
         for i in range(len(H)):
             Hi = H[i]
-            H_mid_alt.append(Hi[:, mid_row])
-            H_mid_act.append(Hi[mid_col, :])
+            H_mid_alt.append(Hi[mid_row,:])
+            H_mid_act.append(Hi[:,mid_col])
 
         #Plot of the ACT Slice
-        plt.plot(fn_mid, H_mid_act[0], fn_mid, H_mid_act[1], fn_mid, H_mid_act[2], fn_mid, H_mid_act[3], fn_mid, H_mid_act[4], fn_mid, H_mid_act[5], fn_mid, H_mid_act[6])
+        """
+        plt.plot(fna_mid, H_mid_act[0], fna_mid, H_mid_act[1], fna_mid, H_mid_act[2], fna_mid, H_mid_act[3], fna_mid, H_mid_act[4], fna_mid, H_mid_act[5], fna_mid, H_mid_act[6])
         plt.vlines(fNyq, 0, 1, colors = 'black', linestyles = 'dashed')
         plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
         plt.xlabel("Spatial frequencies f/(1/w) [-]")
         plt.ylabel("MTF")
         plt.title("System MTF - slice ACT", band)
-
+        
         #Plot of the ALT Slice
-        plt.plot(fn_mid, H_mid_alt[0], fn_mid, H_mid_alt[1], fn_mid, H_mid_alt[2], fn_mid, H_mid_alt[3], fn_mid,
+        plt.plot(fna_mid, H_mid_alt[0], fna_mid, H_mid_alt[1], fna_mid, H_mid_alt[2], fna_mid, H_mid_alt[3], fna_mid,
                  H_mid_alt[4], fn_mid, H_mid_alt[5], fn_mid, H_mid_alt[6])
         plt.vlines(fNyq, 0, 1, colors='black', linestyles='dashed')
         plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
@@ -268,7 +286,7 @@ class mtf:
         plt.ylabel("ALT")
         a = ("System MTF for", band)
         plt.title(a)
-
+        """
         #plt.savefig(directory + 'a.png', dpi=300)
 
         #TODO - do for different bands
@@ -289,4 +307,3 @@ class mtf:
         # Hsmear_mid = Hsmear[:, mid_row]
         # Hmotion_mid = Hmotion[:, mid_row]
         # Hsys_mid = Hsys[:, mid_row]
-

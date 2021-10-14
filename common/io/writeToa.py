@@ -15,7 +15,7 @@ def writeToa(outputdir, name, toa):
 
     # open a netCDF file to write
     ncout = Dataset(savetostr, 'w', format='NETCDF4')
-    
+
     # define axis size
     ncout.createDimension('alt_lines', toa.shape[0])  # unlimited
     ncout.createDimension('act_columns', toa.shape[1])
