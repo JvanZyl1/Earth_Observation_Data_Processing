@@ -58,7 +58,7 @@ class opticalPhase(initIsm):
                                 self.ismConfig.kLF, self.ismConfig.wLF, self.ismConfig.kHF, self.ismConfig.wHF,
                                 self.ismConfig.defocus, self.ismConfig.ksmear, self.ismConfig.kmotion,
                                 self.outdir, band)
-        plt.show()
+        #plt.show()
 
         # Apply system MTF
         toa = self.applySysMtf(toa, Hsys) # always calculated
@@ -134,21 +134,29 @@ class opticalPhase(initIsm):
         # TODO - THIS NEEDS TO BE CHECKED
         #isrf, wsrf = readIsrf(os.path.join(self.auxdir, self.ismConfig.isrffile), band)
         # 1. Read the ISRF for it's band
-        Isrf, wvisrf = readIsrf("C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/eodp_students-master/auxiliary/isrf/","ISRF_" + str(band))
+        #Isrf, wvisrf = readIsrf("C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/eodp_students-master/auxiliary/isrf/","ISRF_" + str(band))
+        Isrf, wvisrf = readIsrf("/home/luss/my_shared_folder/eodp_students-master/auxiliary/isrf/","ISRF_" + str(band))
         # 2. Normalizing the ISRF
         Int_Isrf = np.sum(Isrf)
         Isrf_n = Isrf/Int_Isrf
         print("Shape of ISRF", np.shape(Isrf_n))
         print("Shape of wvisrf", np.shape(wvisrf))
+        print("Sum of wvisrf", np.sum(wvisrf))
+        print("Sum of ISRF", np.sum(Isrf_n))
+        #print("sgm_toa", sgm_toa)
+        #print("sgm_wv", sgm_wv)
+        #####TO DO - align units of sgm_toa and sgm_wv such that they have the same units i.e. microns and nm
+
         #sigma_toa (100, 150, 600) i.e. (alt/nlines, act/ncolumns, wavelengths/nlambda)
         #nlines (alt, along-track) ~ 100, ncolumns (act, across-track) ~ 150, nlambda (spectral) ~ 600
         toa = np.zeros((sgm_toa.shape[0], sgm_toa.shape[1]))
         for ialt in range(sgm_toa.shape[0]):
             for iact in range(sgm_toa.shape[1]):
-                cs = interp1d(sgm_wv, sgm_toa[ialt, iact, :], fill_value=(0, 0), bounds_error=False)
+                cs = interp1d(sgm_wv,sgm_toa[ialt, iact, :], fill_value=(0, 0), bounds_error=False)
                 toa_interp = cs(wvisrf)
                 toa_in = toa_interp*Isrf_n
                 toa[ialt, iact] = np.sum(toa_in)
 
         print("Shape of toa", np.shape(toa))
+        print("toa", toa)
         return toa
