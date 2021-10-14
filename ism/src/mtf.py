@@ -101,7 +101,7 @@ class mtf:
         fAlt = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAlt)
         fAct = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAct) #Reader page 63
         eps_cutoff = D/(lambd*focal) # Optical cutoff frequency
-        fr_factor (1/w)/eps_cutoff # As said in reader, shown below:
+        fr_factor = (1/w)/eps_cutoff # As said in reader, shown below:
         #For the 2D relative frequencies, multiply by a factor (1/w)/ξc. This way we get the relative frequencies but with the same sampling than the fn2D calculated above.
         w_inv = 1/w
         fnAct = np.divide(fAct, w_inv) # The normalized frequencies 1D ACT
@@ -125,7 +125,7 @@ class mtf:
         """
         #TODO
         #Hdiff = 1 - fr2D
-        Hdiff = 2/pi * (np.acos(fr2D) - fr2D*(1 - np.power(fr2D,2))**0.5)
+        Hdiff = 2/pi * (np.arccos(fr2D) - fr2D*(1 - np.power(fr2D,2))**0.5)
         #if Hdiff[fr2D*fr2D>1] = 0:                                 #This needs to be correctly implemented
         #    print("MTF check is completed")
         return Hdiff
@@ -266,7 +266,7 @@ class mtf:
         plt.colorbar()
         plt.xlabel("ACT")
         plt.ylabel("ALT")
-        a = "System MTF for", band)
+        a = ("System MTF for", band)
         plt.title(a)
 
         #plt.savefig(directory + 'a.png', dpi=300)
