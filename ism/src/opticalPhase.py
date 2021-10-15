@@ -63,9 +63,6 @@ class opticalPhase(initIsm):
         # Apply system MTF
         toa = self.applySysMtf(toa, Hsys) # always calculated
         self.logger.debug("TOA [0,0] " +str(toa[0,0]) + " [e-]")
-
-
-
         # Write output TOA & plots
         # -------------------------------------------------------------------------------
         if self.ismConfig.save_optical_stage:
@@ -98,7 +95,6 @@ class opticalPhase(initIsm):
         # TODO - DONE (8th October 2021)
         return toa
 
-
     def applySysMtf(self, toa, Hsys):
         """
         Application of the system MTF to the TOA
@@ -121,6 +117,7 @@ class opticalPhase(initIsm):
             #self.logger.info("The imaginary numbers of the TOA (after MTF is applied) are neglible, i.e. all are under", str(neglible))
         #else:
             #self.logger.info("The imaginary numbers of the TOA (after MTF is applied) aren't neglible, i.e. some are over", str(neglible))
+        toa_ft = np.real(toa_ft)
         return toa_ft
 
     def spectralIntegration(self, sgm_toa, sgm_wv, band):
@@ -132,31 +129,20 @@ class opticalPhase(initIsm):
         :return: TOA image 2D in radiances [mW/m2]
         """
         # TODO - THIS NEEDS TO BE CHECKED
-        #isrf, wsrf = readIsrf(os.path.join(self.auxdir, self.ismConfig.isrffile), band)
         # 1. Read the ISRF for it's band
-        #Isrf, wvisrf = readIsrf("C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/eodp_students-master/auxiliary/isrf/","ISRF_" + str(band))
         Isrf, wvisrf = readIsrf("/home/luss/my_shared_folder/eodp_students-master/auxiliary/isrf/","ISRF_" + str(band))
         # 2. Normalizing the ISRF
         Int_Isrf = np.sum(Isrf)
         Isrf_n = Isrf/Int_Isrf
-        print("Shape of ISRF", np.shape(Isrf_n))
-        print("Shape of wvisrf", np.shape(wvisrf))
-        print("Sum of wvisrf", np.sum(wvisrf))
-        print("Sum of ISRF", np.sum(Isrf_n))
-        #print("sgm_toa", sgm_toa)
-        #print("sgm_wv", sgm_wv)
         #####TO DO - align units of sgm_toa and sgm_wv such that they have the same units i.e. microns and nm
-
         #sigma_toa (100, 150, 600) i.e. (alt/nlines, act/ncolumns, wavelengths/nlambda)
         #nlines (alt, along-track) ~ 100, ncolumns (act, across-track) ~ 150, nlambda (spectral) ~ 600
         toa = np.zeros((sgm_toa.shape[0], sgm_toa.shape[1]))
         for ialt in range(sgm_toa.shape[0]):
             for iact in range(sgm_toa.shape[1]):
                 cs = interp1d(sgm_wv,sgm_toa[ialt, iact, :], fill_value=(0, 0), bounds_error=False)
-                toa_interp = cs(wvisrf)
+                toa_interp = cs(1000*wvisrf) #Check this is correct
                 toa_in = toa_interp*Isrf_n
                 toa[ialt, iact] = np.sum(toa_in)
-
         print("Shape of toa", np.shape(toa))
-        print("toa", toa)
         return toa

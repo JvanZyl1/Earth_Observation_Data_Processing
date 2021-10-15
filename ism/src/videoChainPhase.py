@@ -56,6 +56,7 @@ class videoChainPhase(initIsm):
         :return: output toa in [V]
         """
         #TODO
+        toa = toa*OCF*gain_adc
         return toa
 
     def digitisation(self, toa, bit_depth, min_voltage, max_voltage):
@@ -68,5 +69,12 @@ class videoChainPhase(initIsm):
         :return: toa in digital counts
         """
         #TODO
+        toa_dn = np.round((toa/(max_voltage - min_voltage))*((2**bit_depth)-1))
+        for i in range(len(toa_dn)):
+            for j in range(len(toa_dn[i])):
+                if toa_dn[i,j] > (2*bit_depth -1):
+                    toa_dn[i,j] = 2*bit_depth -1
+                if toa_dn[i,j] < 0:
+                    toa_dn[i,j] = 0
         return toa_dn
 

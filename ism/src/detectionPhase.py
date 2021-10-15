@@ -5,6 +5,9 @@ from common.io.writeToa import writeToa
 from common.plot.plotMat2D import plotMat2D
 from common.plot.plotF import plotF
 
+import math
+from scipy import stats
+
 class detectionPhase(initIsm):
 
     def __init__(self, auxdir, indir, outdir):
@@ -105,6 +108,12 @@ class detectionPhase(initIsm):
         :return: Toa in photons
         """
         #TODO
+        toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
+        E_in = toa*area_pix*tint #DO I NEED TO PARTAKE AREA AS THE WHOLE AREA OR JUST PIXEL?
+        h = 6.62606896 * (10**(-34)) #Planck's constant
+        C = 2.99792457 * (10**(8)) #Speed of light in a vacuum
+        Ephotonk = (h*C)/wv
+        toa_ph = E_in/Ephotonk
         return toa_ph
 
     def phot2Electr(self, toa, QE):
@@ -115,6 +124,8 @@ class detectionPhase(initIsm):
         :return: toa in electrons
         """
         #TODO
+        toae = toa * QE
+        #CHECK THE Ne < FWC
         return toae
 
     def badDeadPixels(self, toa,bad_pix,dead_pix,bad_pix_red,dead_pix_red):
@@ -128,6 +139,38 @@ class detectionPhase(initIsm):
         :return: toa in e- including bad & dead pixels
         """
         #TODO
+        #1. Calculate the number of pixels affected
+        n_col, n_row = np.shape(toa)
+        size_toa = n_col*n_row
+        n_pix_bad = size_toa*bad_pix
+        n_pix_dead = size_toa*dead_pix
+        #2. Assign these index locations with these relations, where toa_act is the number of
+        #pixels in the across-track direction, and step bad and dead are the evenly distributed
+        #steps (size_toa/n_pix).
+
+        toa_act = n_col                                      #Number of pixels in the across-track direction
+        step_bad = int(size_toa/n_pix_bad)
+        step_dead = int(size_toa/n_pix_dead)
+        idx_bad = range(5, toa_act, step_bad)
+        idx_dead = range(0, toa_act, step_dead)
+
+        #3. Apply the reduction factor to the DNS
+        for i in range(len(idx_bad)):
+            toa[idx_bad[i], :] = toa[idx_bad[i], :]*(1-bad_pix_red)   #CHECK THIS IS THE CORRECT WAY
+        for j in range(len(idx_dead)):
+            toa[idx_dead[j], :] = toa[idx_dead[j], :]*(1-dead_pix_red)  #CHECK THIS IS THE CORRECT WAY
+        #4. Save to file (an ASCII txt file for example), the indexes, for validation purposes.
+
+        index_bad = np.arange(5, toa_act, step_bad)
+        index_dead = np.arange(0, toa_act, step_dead)
+        index = list([index_bad, index_dead])
+        PrintPlease = True
+        if PrintPlease == True:                 #If you want the indexes set PrintPlease to False
+            with open('/home/luss/my_shared_folder/EODP-ALG-ISM-2050.txt', 'w') as f:
+                f.write("First index bad")
+                f.write(str(index[0]))
+                f.write("Second is index dead")
+                f.write(str(index[1]))
         return toa
 
     def prnu(self, toa, kprnu):
@@ -138,6 +181,16 @@ class detectionPhase(initIsm):
         :return: TOA after adding PRNU [e-]
         """
         #TODO
+        n_col, n_row = np.shape(toa)
+        n_act = n_col
+        act = np.arange(1, n_act+1, 1)
+        mean, sd = 0.0, 1.0
+        f = np.zeros(np.shape(act))
+        for i in range(len(act)):
+            g = 1/(sd*math.sqrt(2*math.pi)) * math.exp(-((act[i]**2)/(sd**2)))           #Normal distrubtion for that point
+            f[i] = g
+            PRNU = g*kprnu
+            toa[:,i] = toa[:,i] * (1+PRNU)     #Check this replaces
         return toa
 
 
@@ -153,4 +206,32 @@ class detectionPhase(initIsm):
         :return: TOA in [e-] with dark signal
         """
         #TODO
+        n_col, n_row = np.shape(toa)
+        n_act = n_col
+        act = np.arange(1, n_act+1, 1)
+        Sd = ds_A_coeff*((T/Tref)**3)*math.exp(-ds_B_coeff*(1/T - 1/Tref))                  #Constant component of the dark signal
+        mean, sd = 0.0, 1.0
+        f = np.zeros(np.shape(act))
+        DS = np.zeros(np.shape(act))
+        DSNU = np.zeros(np.shape(act))
+        for i in range(len(act)):
+            g = 1/(sd*math.sqrt(2*math.pi)) * math.exp(-((act[i]**2)/(sd**2)))           #Normal distrubtion for that point
+            f[i] = g
+            d_s_n_u = g*kdsnu
+            DSNU[i] = d_s_n_u
+            d_s = Sd*(1+d_s_n_u)                        #Total Dark Signal Changes Per Pixel
+            DS[i] = d_s
+            toa[:,i] = toa[:,i] + d_s    #Check this replaces
+
+
+
+        '''
+        mean, sd = 0.0, 1.0
+        norm = stats.norm(mean, sd)
+        DSNU = (abs(norm))*kdsnu
+        Sd = ds_A_coeff*((T/Tref)**3)*math.exp(-ds_B_coeff*(1/T - 1/Tref))
+        DS = Sd*(1 + DSNU)
+        toa = toa + DS
+        print(toa)
+        '''
         return toa
