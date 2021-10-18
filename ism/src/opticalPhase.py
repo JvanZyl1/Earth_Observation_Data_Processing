@@ -90,7 +90,8 @@ class opticalPhase(initIsm):
         :param Tr: Optical transmittance [-]
         :return: TOA image in irradiances [mW/m2]
         """
-        omega = Tr*(pi/4)*((D/f)**2) #Equation page 34 of the reader : EODP-ALG-ISM-1020
+        omega = Tr*(pi/4)*((D/f)**2) #Equation page 34 of the reader : EODP-ALG-ISM-1020: This is the radiance to irradiance factor for each band
+
         toa = toa * omega #Radiance -> Irradiance
         # TODO - DONE (8th October 2021)
         return toa

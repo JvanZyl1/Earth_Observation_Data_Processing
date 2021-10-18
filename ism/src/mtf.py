@@ -259,9 +259,9 @@ class mtf:
             Hi = H[i]
             H_mid_alt.append(Hi[mid_row,:])
             H_mid_act.append(Hi[:,mid_col])
-
+        #plotMat2D()
+        '''
         #Plot of the ACT Slice
-        """
         plt.plot(fna_mid, H_mid_act[0], fna_mid, H_mid_act[1], fna_mid, H_mid_act[2], fna_mid, H_mid_act[3], fna_mid, H_mid_act[4], fna_mid, H_mid_act[5], fna_mid, H_mid_act[6])
         plt.vlines(fNyq, 0, 1, colors = 'black', linestyles = 'dashed')
         plt.legend("Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys", "Nyquist frequency")
@@ -286,9 +286,8 @@ class mtf:
         plt.ylabel("ALT")
         a = ("System MTF for", band)
         plt.title(a)
-        """
         #plt.savefig(directory + 'a.png', dpi=300)
-
+        '''
         #TODO - do for different bands
 
 #Pages 63
