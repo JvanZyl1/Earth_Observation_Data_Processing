@@ -3,8 +3,6 @@
 
 from common.io.writeToa import readToa
 import numpy as np
-import matplotlib.pyplot as plt
-
 
 def threesigmacheck(toa_input, toa_test, nlines, ncolumns):
     N = nlines*ncolumns
@@ -25,7 +23,6 @@ def threesigmacheck(toa_input, toa_test, nlines, ncolumns):
     else:
         Check_pass = False
     return Check_pass
-
 
 #1. Check for all bands that the differences with respect to the output TOA (ism_toa_isrf) are <0.01% for at least 3-sigma of the points.
 #2. Check for all bands that the differences with respect to the output TOA (ism_toa_optical) are <0.01% for at least 3-sigma of the points.

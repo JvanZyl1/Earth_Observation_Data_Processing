@@ -138,6 +138,7 @@ class detectionPhase(initIsm):
         :param dead_pix_red: Reduction in the quantum efficiency for the dead pixels [-, over 1]
         :return: toa in e- including bad & dead pixels
         """
+        print("gashgsha", bad_pix_red)
         #TODO
         #1. Calculate the number of pixels affected
         n_col, n_row = np.shape(toa)
@@ -148,7 +149,7 @@ class detectionPhase(initIsm):
         #pixels in the across-track direction, and step bad and dead are the evenly distributed
         #steps (size_toa/n_pix).
 
-        toa_act = n_col                                      #Number of pixels in the across-track direction
+        toa_act = n_row                                      #Number of pixels in the across-track direction
         step_bad = int(size_toa/n_pix_bad)
         step_dead = int(size_toa/n_pix_dead)
         idx_bad = range(5, toa_act, step_bad)
@@ -156,9 +157,9 @@ class detectionPhase(initIsm):
 
         #3. Apply the reduction factor to the DNS
         for i in range(len(idx_bad)):
-            toa[idx_bad[i], :] = toa[idx_bad[i], :]*(1-bad_pix_red)   #CHECK THIS IS THE CORRECT WAY
+            toa[:, idx_bad[i]] = toa[:, idx_bad[i]]*(1-bad_pix_red)   #CHECK THIS IS THE CORRECT WAY
         for j in range(len(idx_dead)):
-            toa[idx_dead[j], :] = toa[idx_dead[j], :]*(1-dead_pix_red)  #CHECK THIS IS THE CORRECT WAY
+            toa[:, idx_dead[j]] = toa[:, idx_dead[j]]*(1-dead_pix_red)  #CHECK THIS IS THE CORRECT WAY
         #4. Save to file (an ASCII txt file for example), the indexes, for validation purposes.
 
         index_bad = np.arange(5, toa_act, step_bad)
