@@ -307,3 +307,16 @@ class mtf:
         plt.close(3)
 
         #Saving the MTF values at the Nyquist Frequency
+        PrintPlease = True
+        if PrintPlease == True:                 #If you want the indexes set PrintPlease to False
+            if str(band) == "VNIR-0":
+                with open('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test/MTF_Nyq_values.txt', 'w') as f:
+                    f.write("Start")
+            with open('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test/MTF_Nyq_values.txt', 'a') as f:
+                a = ("\n", "The band:", band, "\n", "Hdiff", str(H_mid_act[0][-1]), "\n", "Hdefoc", str(H_mid_act[1][-1]), "Hwfe",
+                     str(H_mid_act[2][-1]), "Hdet", str(H_mid_act[3][-1]), "\n", "Hsmear", str(H_mid_act[4][-1]), "\n",
+                     "Hmotion", str(H_mid_act[5][-1]), "\n", "Hsys", str(H_mid_act[6][-1]))
+                str1 = ''
+                b = str1.join(a)
+                f.write(str(b))
+                f.close()

@@ -49,7 +49,7 @@ for i in range(len(band)):
 #4.a. Plot for all bands the System MTF across and along track (for the central pixels).
 #4.b.  Report the MTF at the Nyquist frequency. Explain whether this is a decent or mediocre value and why.
 # Fix plotMtf function in mtf.py; starting line 263
-
+# Mtf values stored in a text document
 
 
 #5. Explain the cause of the border effect introduced by the spatial filter (MTF)

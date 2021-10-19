@@ -101,13 +101,7 @@ class opticalPhase(initIsm):
             if str(band) == "VNIR-0":
                 with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt', 'w') as f:
                     f.write("Start")
-            with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt','r') as f:
-                for line in f:
-                    strip_lines=line.strip()
-                    listli=strip_lines.split()
-                    listl.append(listli)
-            with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt', 'w') as f:
-                f.write(str(listl))
+            with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt', 'a') as f:
                 f.write("rad2Irrad_factor")
                 f.write(str(band))
                 f.write(str(omega))
