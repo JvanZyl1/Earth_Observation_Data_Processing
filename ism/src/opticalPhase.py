@@ -44,7 +44,8 @@ class opticalPhase(initIsm):
         toa = self.rad2Irrad(toa,
                              self.ismConfig.D,
                              self.ismConfig.f,
-                             self.ismConfig.Tr)
+                             self.ismConfig.Tr,
+                             band)
 
         self.logger.debug("TOA [0,0] " +str(toa[0,0]) + " [e-]")
 
@@ -81,7 +82,7 @@ class opticalPhase(initIsm):
 
         return toa
 
-    def rad2Irrad(self, toa, D, f, Tr):
+    def rad2Irrad(self, toa, D, f, Tr,band):
         """
         Radiance to Irradiance conversion
         :param toa: Input TOA image in radiances [mW/sr/m2]
@@ -91,8 +92,26 @@ class opticalPhase(initIsm):
         :return: TOA image in irradiances [mW/m2]
         """
         omega = Tr*(pi/4)*((D/f)**2) #Equation page 34 of the reader : EODP-ALG-ISM-1020: This is the radiance to irradiance factor for each band
-
         toa = toa * omega #Radiance -> Irradiance
+
+        #This is the testing procedure - to print the radiance to irradiance conversion factors
+        PrintPlease = True
+        listl = []
+        if PrintPlease == True:                 #This is part of the test procedure,
+            if str(band) == "VNIR-0":
+                with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt', 'w') as f:
+                    f.write("Start")
+            with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt','r') as f:
+                for line in f:
+                    strip_lines=line.strip()
+                    listli=strip_lines.split()
+                    listl.append(listli)
+            with open('/home/luss/my_shared_folder/EODP_Optical_Phase.txt', 'w') as f:
+                f.write(str(listl))
+                f.write("rad2Irrad_factor")
+                f.write(str(band))
+                f.write(str(omega))
+
         # TODO - DONE (8th October 2021)
         return toa
 

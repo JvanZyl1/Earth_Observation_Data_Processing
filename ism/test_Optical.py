@@ -26,6 +26,7 @@ def threesigmacheck(toa_input, toa_test, nlines, ncolumns):
         Check_pass = False
     return Check_pass
 
+
 #1. Check for all bands that the differences with respect to the output TOA (ism_toa_isrf) are <0.01% for at least 3-sigma of the points.
 #2. Check for all bands that the differences with respect to the output TOA (ism_toa_optical) are <0.01% for at least 3-sigma of the points.
 band = [VNIR-0, VNIR-1, VNIR-2, VNIR-3]
@@ -43,10 +44,13 @@ for i in range(len(band)):
 
 #3. What is the radiance to irradiance conversion factor for each band. What are the units of the TOA at this stage.
 # See line 93 in opticalPhase.py at function Rad2Ird
+# This is wrote in the rad2Irrad function -> should move to a seperate function
 
-#4. Plot for all bands the System MTF across and along track (for the central pixels).
-#  Report the MTF at the Nyquist frequency. Explain whether this is a decent or mediocre value and why.
+#4.a. Plot for all bands the System MTF across and along track (for the central pixels).
+#4.b.  Report the MTF at the Nyquist frequency. Explain whether this is a decent or mediocre value and why.
 # Fix plotMtf function in mtf.py; starting line 263
+
+
 
 #5. Explain the cause of the border effect introduced by the spatial filter (MTF)
 # and what would be an appropriate solution (if any). How many pixel lines does it affect (roughly).

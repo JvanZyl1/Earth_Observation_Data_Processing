@@ -25,7 +25,7 @@ for i in range(len(toa_all)):                                           #Iterati
     sigma = np.sqrt(np.sum(np.square(toa_all[i] - mean))/N**2)          #Calculating the standard deviation of the values (sigma)
     threesigma = 3*sigma                                                #Calculating three standard deviations
     difference = np.absolute(np.subtract(toa_all[i], toa_in[i]))        #Calculating the differences between the input and output
-    percentage_diff_matrix = np.divide(difference, toa_0_in)*100        #Finding the percentage differences between the bands
+    percentage_diff_matrix = np.divide(difference, toa_in[i])*100        #Finding the percentage differences between the bands
     counter = 0
     for row in percentage_diff_matrix:
         for elem in row:
