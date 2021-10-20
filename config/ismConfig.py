@@ -37,7 +37,7 @@ class ismConfig:
         self.bad_pix = 1.0                      # [%] Percentage of bad/dead pixels in the CCD
         self.dead_pix = 0.5                      # [%]
         self.bad_pix_red = 0.1                   # [-] Reduction in the quantum efficiency of the pixel (over 1)
-        self.dead_pix_red = 0.4                  # [-]
+        self.dead_pix_red = 0.5                  # [-] - Changed from 0.4 as was different in reader
         self.kprnu = 0.04                        # 4% Coefficient by which we multiply the PRNU standard normal distribution
         # Dark signal modelling
         self.kdsnu = 0.2                         # 20% Coefficient by which we multiply the DSNU standard normal distribution

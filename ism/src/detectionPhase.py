@@ -140,19 +140,20 @@ class detectionPhase(initIsm):
         """
         print("gashgsha", bad_pix_red)
         #TODO
+
         #1. Calculate the number of pixels affected
         n_col, n_row = np.shape(toa)
         size_toa = n_col*n_row
-        n_pix_bad = size_toa*bad_pix
-        n_pix_dead = size_toa*dead_pix
+        n_pix_bad = size_toa*(0.01*bad_pix)
+        n_pix_dead = size_toa*(0.01*dead_pix)
         #2. Assign these index locations with these relations, where toa_act is the number of
         #pixels in the across-track direction, and step bad and dead are the evenly distributed
         #steps (size_toa/n_pix).
-
         toa_act = n_row                                      #Number of pixels in the across-track direction
         step_bad = int(size_toa/n_pix_bad)
         step_dead = int(size_toa/n_pix_dead)
         idx_bad = range(5, toa_act, step_bad)
+        print(idx_bad)
         idx_dead = range(0, toa_act, step_dead)
 
         #3. Apply the reduction factor to the DNS
@@ -182,16 +183,16 @@ class detectionPhase(initIsm):
         :return: TOA after adding PRNU [e-]
         """
         #TODO
+        toa_a = toa
         n_col, n_row = np.shape(toa)
         n_act = n_col
         act = np.arange(1, n_act+1, 1)
         mean, sd = 0.0, 1.0
         f = np.zeros(np.shape(act))
         for i in range(len(act)):
-            g = 1/(sd*math.sqrt(2*math.pi)) * math.exp(-((act[i]**2)/(sd**2)))           #Normal distrubtion for that point
-            f[i] = g
-            PRNU = g*kprnu
-            toa[:,i] = toa[:,i] * (1+PRNU)     #Check this replaces
+            prob_density = (np.pi*sd) * np.exp(-0.5*((act[i]-mean)/sd)**2)
+            PRNU = prob_density*kprnu
+            toa[i,:] = toa[i,:] * (1+PRNU)
         return toa
 
 
@@ -207,6 +208,7 @@ class detectionPhase(initIsm):
         :return: TOA in [e-] with dark signal
         """
         #TODO
+
         n_col, n_row = np.shape(toa)
         n_act = n_col
         act = np.arange(1, n_act+1, 1)
@@ -216,23 +218,10 @@ class detectionPhase(initIsm):
         DS = np.zeros(np.shape(act))
         DSNU = np.zeros(np.shape(act))
         for i in range(len(act)):
-            g = 1/(sd*math.sqrt(2*math.pi)) * math.exp(-((act[i]**2)/(sd**2)))           #Normal distrubtion for that point
-            f[i] = g
-            d_s_n_u = g*kdsnu
+            prob_density = (np.pi*sd) * np.exp(-0.5*((act[i]-mean)/sd)**2)
+            d_s_n_u = prob_density*kdsnu
             DSNU[i] = d_s_n_u
             d_s = Sd*(1+d_s_n_u)                        #Total Dark Signal Changes Per Pixel
             DS[i] = d_s
-            toa[:,i] = toa[:,i] + d_s    #Check this replaces
-
-
-
-        '''
-        mean, sd = 0.0, 1.0
-        norm = stats.norm(mean, sd)
-        DSNU = (abs(norm))*kdsnu
-        Sd = ds_A_coeff*((T/Tref)**3)*math.exp(-ds_B_coeff*(1/T - 1/Tref))
-        DS = Sd*(1 + DSNU)
-        toa = toa + DS
-        print(toa)
-        '''
+            toa[i,:] = toa[i,:] + d_s    #Check this replaces
         return toa
