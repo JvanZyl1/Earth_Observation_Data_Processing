@@ -17,9 +17,9 @@ def threesigmacheck(toa_input, toa_test, nlines, ncolumns):
         for elem in row:
             if elem < 0.01:                                             #Checking if the differences are <0.01%
                 counter += 1                                            #If so it counts it
-    check = False
+    Check_pass = False
     if counter > threesigma:                                            #Checking if three-sigma of the points are <0.01%
-        check = True
+        Check_pass = True
     else:
         Check_pass = False
     return Check_pass
@@ -30,14 +30,14 @@ band = [VNIR-0, VNIR-1, VNIR-2, VNIR-3]
 nlines, ncolumns = 100, 150
 # Read the toa's from the import - turn this into a loop
 for i in range(len(band)):
-    toa_input_1 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1B/input', 'ism_toa_isrf' + str(band) + '.nc')
-    toa_test_1 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test', 'ism_toa_isrf' + str(band) + '.nc')
+    toa_input_1 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1B/input', 'ism_toa_isrf' + str(band[i]) + '.nc')
+    toa_test_1 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test', 'ism_toa_isrf' + str(band[i]) + '.nc')
     Check_passed_1 = threesigmacheck(toa_input_1, toa_test_1, nlines, ncolumns)
-    toa_input_2 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1B/input', 'ism_toa_optical' + str(band) + '.nc')
-    toa_test_2 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test', 'ism_toa_optical' + str(band) + '.nc')
+    toa_input_2 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1B/input', 'ism_toa_optical' + str(band[i]) + '.nc')
+    toa_test_2 = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test', 'ism_toa_optical' + str(band[i]) + '.nc')
     Check_passed_2 = threesigmacheck(toa_input_2, toa_test_2, nlines, ncolumns)
     if Check_passed_1 == True and Check_passed_2 == False:
-        print("The differences with respect to the output are <0.01% for at least 3-sigma of the points.", str(band))
+        print("The differences with respect to the output are <0.01% for at least 3-sigma of the points.", str(band[i]))
 
 #3. What is the radiance to irradiance conversion factor for each band. What are the units of the TOA at this stage.
 # See line 93 in opticalPhase.py at function Rad2Ird
