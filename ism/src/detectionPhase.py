@@ -1,4 +1,3 @@
-
 from ism.src.initIsm import initIsm
 import numpy as np
 from common.io.writeToa import writeToa
@@ -94,7 +93,6 @@ class detectionPhase(initIsm):
             idalt = int(toa.shape[0]/2)
             saveas_str = saveas_str + '_alt' + str(idalt)
             plotF([], toa[idalt,:], title_str, xlabel_str, ylabel_str, self.outdir, saveas_str)
-
         return toa
 
 
@@ -108,8 +106,8 @@ class detectionPhase(initIsm):
         :return: Toa in photons
         """
         #TODO
-        toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
-        E_in = toa*area_pix*tint #DO I NEED TO PARTAKE AREA AS THE WHOLE AREA OR JUST PIXEL?
+        #toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
+        E_in = toa*area_pix*tint
         h = 6.62606896 * (10**(-34)) #Planck's constant
         C = 2.99792457 * (10**(8)) #Speed of light in a vacuum
         Ephotonk = (h*C)/wv
@@ -140,7 +138,6 @@ class detectionPhase(initIsm):
         """
         print("gashgsha", bad_pix_red)
         #TODO
-
         #1. Calculate the number of pixels affected
         n_col, n_row = np.shape(toa)
         size_toa = n_col*n_row
@@ -190,7 +187,7 @@ class detectionPhase(initIsm):
         mean, sd = 0.0, 1.0
         f = np.zeros(np.shape(act))
         for i in range(len(act)):
-            prob_density = (np.pi*sd) * np.exp(-0.5*((act[i]-mean)/sd)**2)
+            prob_density = (1/(math.sqrt(2*np.pi)*sd)) * np.exp(-0.5*((act[i]-mean)/sd)**2)
             PRNU = prob_density*kprnu
             toa[i,:] = toa[i,:] * (1+PRNU)
         return toa
@@ -218,8 +215,8 @@ class detectionPhase(initIsm):
         DS = np.zeros(np.shape(act))
         DSNU = np.zeros(np.shape(act))
         for i in range(len(act)):
-            prob_density = (np.pi*sd) * np.exp(-0.5*((act[i]-mean)/sd)**2)
-            d_s_n_u = prob_density*kdsnu
+            prob_density = (1/(math.sqrt(2*np.pi)*sd)) * np.exp(-0.5*((act[i]-mean)/sd)**2)
+            d_s_n_u = abs(prob_density)*kdsnu
             DSNU[i] = d_s_n_u
             d_s = Sd*(1+d_s_n_u)                        #Total Dark Signal Changes Per Pixel
             DS[i] = d_s
