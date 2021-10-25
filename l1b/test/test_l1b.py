@@ -16,7 +16,6 @@ toa_3 = readToa('C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/T
 toa_3_in = readToa(r'C:/Users/Jonathan van Zyl/Documents/BSC Aerospace Engineering/TU Delft_UC3M Yr.3/UC3M Exchange/Earth Observation and Data Processing/VM_shared_folder/EODP_TER_2021/EODP-TS-L1B/input', 'ism_toa_VNIR-3.nc')
 toa_all = [toa_0, toa_1, toa_2, toa_3]
 toa_in = [toa_0_in, toa_1_in, toa_2_in, toa_3_in]
-
 Check_pass = True #assumed it's passed
 for i in range(len(toa_all)):                                           #Iterating over all the toa's bands
     N = 100*150                                                         #Calculating the number of pixels
