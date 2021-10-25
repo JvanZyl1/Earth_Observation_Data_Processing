@@ -56,7 +56,30 @@ for i in range(len(band)):
     l1b_row.append(np.sum(toa_restored, axis=0))
     print(np.shape(l1b_row))
 
-#Plotting of ism_toa_isrf and l1b_toa for each band with act_pixel vs. toa
+
+Q3 = True #If you want the Q3
+if Q3 == True:
+    fig, axs = plt.subplots(2, 2)
+    axs[0, 0].plot( act, l1b_row[0], 'tab:orange')
+    axs[0, 0].set_title('VNIR-0')
+    axs[0, 1].plot( act, l1b_row[1], 'tab:orange')
+    axs[0, 1].set_title('VNIR-1')
+    axs[1, 0].plot( act, l1b_row[2], 'tab:orange')
+    axs[1, 0].set_title('VNIR-2')
+    axs[1, 1].plot( act, l1b_row[3], 'tab:orange')
+    axs[1, 1].set_title('VNIR-3')
+
+    for ax in axs.flat:
+        ax.set(xlabel='Act Pixel [-]', ylabel='TOA [mW/m2/sr]')
+
+    # Hide x labels and tick labels for top plots and y ticks for right plots.
+    for ax in axs.flat:
+        ax.label_outer()
+
+    plt.show()
+
+
+
 fig, axs = plt.subplots(2, 2)
 axs[0, 0].plot(act, isrf_row[0], 'tab:blue', act, l1b_row[0], 'tab:orange')
 axs[0, 0].set_title('VNIR-0')
