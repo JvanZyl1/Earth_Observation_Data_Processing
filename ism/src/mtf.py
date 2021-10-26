@@ -96,10 +96,10 @@ class mtf:
         :return fnAlt: 1D normalised frequencies 2D ALT (f/(1/w))
         """
         print(D, "D", lambd, "lamd", focal, "focal")
-        infinitesimal = 10**(-10)
+        infinitesimal = 0.00000001
         fstepAlt = 1/nlines/w
         fstepAct = 1/ncolumns/w
-        fAlt = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAlt)
+        fAlt = np.arange(-1/(2*w) , 1/(2*w)-infinitesimal, fstepAlt)
         fAct = np.arange(-1/(2*w), 1/(2*w)-infinitesimal, fstepAct) #Reader page 63
         eps_cutoff = D/(lambd*focal) # Optical cutoff frequency
         fr_factor = eps_cutoff#(1/w)/eps_cutoff # As said in reader, shown below:
