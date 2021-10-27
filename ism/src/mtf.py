@@ -282,8 +282,8 @@ class mtf:
         plt.plot(fnAct, H_mid_alt[0], fnAct, H_mid_alt[1], fnAct, H_mid_alt[2], fnAct, H_mid_alt[3], fnAct,
                  H_mid_alt[4], fnAct, H_mid_alt[5], fnAct, H_mid_alt[6])
         plt.xlim(0, 0.55)
-        plt.axvline(x = nyqnorm, color = 'b', label = 'axvline - full height')
-        plt.legend([ "Nyquist", "Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys"])
+        plt.axvline(x = nyqnorm, color = 'b', linestyle = '--', label = 'axvline - full height')
+        plt.legend([ "Hdiff", "Hdefoc", "Hwfe", "Hdet", "Hsmear", "Hmotion", "Hsys","Nyquist"])
         plt.xlabel("Spatial frequencies f/(1/w) [-]")
         plt.ylabel("MTF")
         b = ("System MTF - slice ALT", band)
@@ -313,9 +313,12 @@ class mtf:
                 with open('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test/MTF_Nyq_values.txt', 'w') as f:
                     f.write("Start")
             with open('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test/MTF_Nyq_values.txt', 'a') as f:
-                a = ("\n", "The band:", band, "\n", "Hdiff", str(H_mid_act[0][-1]), "\n", "Hdefoc", str(H_mid_act[1][-1]), "Hwfe",
-                     str(H_mid_act[2][-1]), "Hdet", str(H_mid_act[3][-1]), "\n", "Hsmear", str(H_mid_act[4][-1]), "\n",
-                     "Hmotion", str(H_mid_act[5][-1]), "\n", "Hsys", str(H_mid_act[6][-1]))
+                a = ("\n",  "act ", "The band:", band, "\n", "Hdiff", str(H_mid_act[0][-1]), "\n", "Hdefoc", str(H_mid_act[1][-1]), "\n", "Hwfe",
+                     str(H_mid_act[2][-1]), "Hdet", "\n", str(H_mid_act[3][-1]), "\n", "Hsmear", str(H_mid_act[4][-1]), "\n",
+                     "Hmotion", str(H_mid_act[5][-1]), "\n", "Hsys", str(H_mid_act[6][-1]), "\n", "alt ",
+                     "The band:", band, "\n", "Hdiff", str(H_mid_alt[0][-1]), "\n", "Hdefoc", str(H_mid_alt[1][-1]), "\n", "Hwfe",
+                     str(H_mid_alt[2][-1]), "\n", "Hdet", str(H_mid_alt[3][-1]), "\n", "Hsmear", str(H_mid_alt[4][-1]), "\n",
+                     "Hmotion", str(H_mid_alt[5][-1]), "\n", "Hsys", str(H_mid_alt[6][-1]))
                 str1 = ''
                 b = str1.join(a)
                 f.write(str(b))
