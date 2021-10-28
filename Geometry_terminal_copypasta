@@ -136,3 +136,28 @@ netcdf file:/home/luss/my_shared_folder/gm_test/geolocation.nc {
 
   // global attributes:
 }
+
+
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/output/l1c_toa_VNIR-0.nc
+Size of matrix (3129,)
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/test/l1c_toa_VNIR-0.nc
+Size of matrix (3129,)
+The differences with respect to the output are <0.01% for at least 3-sigma of the points. VNIR-0
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/output/l1c_toa_VNIR-1.nc
+Size of matrix (3129,)
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/test/l1c_toa_VNIR-1.nc
+Size of matrix (3129,)
+The differences with respect to the output are <0.01% for at least 3-sigma of the points. VNIR-1
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/output/l1c_toa_VNIR-2.nc
+Size of matrix (3129,)
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/test/l1c_toa_VNIR-2.nc
+Size of matrix (3129,)
+The differences with respect to the output are <0.01% for at least 3-sigma of the points. VNIR-2
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/output/l1c_toa_VNIR-3.nc
+Size of matrix (3129,)
+Reading /home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-L1C/test/l1c_toa_VNIR-3.nc
+Size of matrix (3129,)
+The differences with respect to the output are <0.01% for at least 3-sigma of the points. VNIR-3
+
+Process finished with exit code 0
+
