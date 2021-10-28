@@ -53,3 +53,35 @@ luss@luss-VirtualBox:~/EODP/eodp_gm_master/bin$ ./geometry_module ../conf/gm_loc
 [I] End processing of the Geometry Module
 [D] GeometryModule destructor.
 [D] End of the GeometryModule destructor.
+
+%%%%real orbit xml - first ECEF
+
+<OSV>
+        <TAI>TAI=2019-09-14T10:36:50.470081</TAI>
+        <UTC>UTC=2019-09-14T10:36:13.470081</UTC>
+        <UT1>UT1=2019-09-14T10:36:13.315206</UT1>
+        <Absolute_Orbit>+00001</Absolute_Orbit>
+        <X unit="m">+6115820.822</X>
+        <Y unit="m">+0394404.318</Y>
+        <Z unit="m">+3711823.255</Z>
+        <VX unit="m/s">+3918.932360</VX>
+        <VY unit="m/s">-1497.099088</VY>
+        <VZ unit="m/s">-6278.543090</VZ>
+        <Quality>0000000000000</Quality>
+      </OSV>
+
+%%%%real orbit xml - last ECEF
+
+      <OSV>
+        <TAI>TAI=2019-09-14T10:36:51.135361</TAI>
+        <UTC>UTC=2019-09-14T10:36:14.135361</UTC>
+        <UT1>UT1=2019-09-14T10:36:13.980486</UT1>
+        <Absolute_Orbit>+00001</Absolute_Orbit>
+        <X unit="m">+6118426.495</X>
+        <Y unit="m">+0393408.106</Y>
+        <Z unit="m">+3707645.374</Z>
+        <VX unit="m/s">+3914.400526</VX>
+        <VY unit="m/s">-1497.761575</VY>
+        <VZ unit="m/s">-6281.223334</VZ>
+        <Quality>0000000000000</Quality>
+      </OSV>
