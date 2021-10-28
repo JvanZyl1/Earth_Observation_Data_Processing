@@ -113,3 +113,26 @@ luss@luss-VirtualBox:~/EODP/eodp_gm_master/bin$ ./geometry_module ../conf/gm_loc
   </Data_Block>
 </Earth_Explorer_File>
 
+%%%Panoply geolocation.nc
+
+netcdf file:/home/luss/my_shared_folder/gm_test/geolocation.nc {
+  dimensions:
+    n_lines = 2976;
+    n_columns = 1000;
+  group: projection {
+    variables:
+      double latitude(n_lines=2976, n_columns=1000);
+        :units = "degrees";
+
+      double longitude(n_lines=2976, n_columns=1000);
+        :units = "degrees";
+
+      double altitude(n_lines=2976, n_columns=1000);
+        :units = "meters";
+
+    // group attributes:
+    :description = "List of the LR CCD real projection grids, in ECEF reference frame, provided by the Geometry module during the sampling period [lat, lon, alt]";
+  }
+
+  // global attributes:
+}
