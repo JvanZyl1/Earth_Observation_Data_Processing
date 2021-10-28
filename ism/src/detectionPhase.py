@@ -107,11 +107,13 @@ class detectionPhase(initIsm):
         """
         #TODO
         #toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
+        print("classical", toa[2,5])
         E_in = toa*area_pix*tint
         h = 6.62606896 * (10**(-34)) #Planck's constant
         C = 2.99792457 * (10**(8)) #Speed of light in a vacuum
         Ephotonk = (h*C)/wv
         toa_ph = E_in/Ephotonk
+        print(toa_ph[2,5])
         return toa_ph
 
     def phot2Electr(self, toa, QE):
@@ -124,6 +126,7 @@ class detectionPhase(initIsm):
         #TODO
         toae = toa * QE
         #CHECK THE Ne < FWC
+        print("toae", toae[2,5])
         return toae
 
     def badDeadPixels(self, toa,bad_pix,dead_pix,bad_pix_red,dead_pix_red):
@@ -136,13 +139,12 @@ class detectionPhase(initIsm):
         :param dead_pix_red: Reduction in the quantum efficiency for the dead pixels [-, over 1]
         :return: toa in e- including bad & dead pixels
         """
-        print("gashgsha", bad_pix_red)
         #TODO
         #1. Calculate the number of pixels affected
         n_col, n_row = np.shape(toa)
         size_toa = n_col*n_row
-        n_pix_bad = size_toa*(0.01*bad_pix)
-        n_pix_dead = size_toa*(0.01*dead_pix)
+        n_pix_bad = n_col*(0.01*bad_pix)
+        n_pix_dead = n_col*(0.01*dead_pix)
         #2. Assign these index locations with these relations, where toa_act is the number of
         #pixels in the across-track direction, and step bad and dead are the evenly distributed
         #steps (size_toa/n_pix).
@@ -150,7 +152,6 @@ class detectionPhase(initIsm):
         step_bad = int(size_toa/n_pix_bad)
         step_dead = int(size_toa/n_pix_dead)
         idx_bad = range(5, toa_act, step_bad)
-        print(idx_bad)
         idx_dead = range(0, toa_act, step_dead)
 
         #3. Apply the reduction factor to the DNS
@@ -180,16 +181,17 @@ class detectionPhase(initIsm):
         :return: TOA after adding PRNU [e-]
         """
         #TODO
-        toa_a = toa
         n_col, n_row = np.shape(toa)
         n_act = n_col
         act = np.arange(1, n_act+1, 1)
         mean, sd = 0.0, 1.0
         f = np.zeros(np.shape(act))
+        toa_a = np.zeros(np.shape(toa))
         for i in range(len(act)):
             prob_density = (1/(math.sqrt(2*np.pi)*sd)) * np.exp(-0.5*((act[i]-mean)/sd)**2)
             PRNU = prob_density*kprnu
-            toa[i,:] = toa[i,:] * (1+PRNU)
+            toa_a[i,:] = toa[i,:] * (1+PRNU)
+        toa = toa_a
         return toa
 
 
