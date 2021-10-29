@@ -108,7 +108,7 @@ class detectionPhase(initIsm):
         #TODO
         #toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
         print("classical", toa[2,5])
-        E_in = toa*area_pix*tint
+        E_in = toa*area_pix*tint*(10**(-3))
         h = 6.62606896 * (10**(-34)) #Planck's constant
         C = 2.99792457 * (10**(8)) #Speed of light in a vacuum
         Ephotonk = (h*C)/wv
@@ -181,17 +181,19 @@ class detectionPhase(initIsm):
         :return: TOA after adding PRNU [e-]
         """
         #TODO
-        n_col, n_row = np.shape(toa)
+        n_row, n_col = np.shape(toa)
         n_act = n_col
         act = np.arange(1, n_act+1, 1)
-        mean, sd = 0.0, 1.0
+        mean, sd = 0, 1.0
         f = np.zeros(np.shape(act))
         toa_a = np.zeros(np.shape(toa))
-        for i in range(len(act)):
-            prob_density = (1/(math.sqrt(2*np.pi)*sd)) * np.exp(-0.5*((act[i]-mean)/sd)**2)
-            PRNU = prob_density*kprnu
+        PRNU = np.random.normal(0, 1, toa.shape[1])*kprnu
+        for i in range(n_row):
+            if i==100:
+                aux = 1
             toa_a[i,:] = toa[i,:] * (1+PRNU)
         toa = toa_a
+
         return toa
 
 
@@ -212,7 +214,7 @@ class detectionPhase(initIsm):
         n_act = n_col
         act = np.arange(1, n_act+1, 1)
         Sd = ds_A_coeff*((T/Tref)**3)*math.exp(-ds_B_coeff*(1/T - 1/Tref))                  #Constant component of the dark signal
-        mean, sd = 0.0, 1.0
+        mean, sd = 0, 1
         f = np.zeros(np.shape(act))
         DS = np.zeros(np.shape(act))
         DSNU = np.zeros(np.shape(act))
