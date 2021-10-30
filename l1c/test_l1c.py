@@ -44,8 +44,3 @@ for i in range(len(band)):
         print("The differences with respect to the output are <0.01% for at least 3-sigma of the points.", band[i])
     else:
         exit(1)
-
-
-
-
-

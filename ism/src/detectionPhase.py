@@ -107,13 +107,21 @@ class detectionPhase(initIsm):
         """
         #TODO
         #toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
-        print("classical", toa[2,5])
         E_in = toa*area_pix*tint*(10**(-3))
         h = 6.62606896 * (10**(-34)) #Planck's constant
         C = 2.99792457 * (10**(8)) #Speed of light in a vacuum
         Ephotonk = (h*C)/wv
         toa_ph = E_in/Ephotonk
-        print(toa_ph[2,5])
+        conv = (area_pix*tint)/(Ephotonk)
+        PrintPlease = True
+        if PrintPlease == True:                 #If you want the indexes set PrintPlease to False
+            with open('/home/luss/my_shared_folder/EODP-CONVERSION_VID.txt', 'a') as f:
+                a = ("\n", "Irradiance to Photons:", str(conv))
+                str1 = ''
+                b = str1.join(a)
+                f.write(str(b))
+                f.close()
+
         return toa_ph
 
     def phot2Electr(self, toa, QE):
@@ -126,7 +134,16 @@ class detectionPhase(initIsm):
         #TODO
         toae = toa * QE
         #CHECK THE Ne < FWC
-        print("toae", toae[2,5])
+        convf = QE
+        PrintPlease = True
+        if PrintPlease == True:                 #If you want the indexes set PrintPlease to False
+            with open('/home/luss/my_shared_folder/EODP-CONVERSION_VID.txt', 'a') as f:
+                a = ("\n", "Photons to Electrons:", str(convf))
+                str1 = ''
+                b = str1.join(a)
+                f.write(str(b))
+                f.close()
+
         return toae
 
     def badDeadPixels(self, toa,bad_pix,dead_pix,bad_pix_red,dead_pix_red):
