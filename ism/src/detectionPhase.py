@@ -105,8 +105,6 @@ class detectionPhase(initIsm):
         :param wv: Central wavelength of the band [m]
         :return: Toa in photons
         """
-        #TODO
-        #toa = toa*(10**(-3)) #mW/m^2 -> W/m^2
         E_in = toa*area_pix*tint*(10**(-3))
         h = 6.62606896 * (10**(-34)) #Planck's constant
         C = 2.99792457 * (10**(8)) #Speed of light in a vacuum
@@ -131,9 +129,7 @@ class detectionPhase(initIsm):
         :param QE: Quantum efficiency [e-/ph]
         :return: toa in electrons
         """
-        #TODO
         toae = toa * QE
-        #CHECK THE Ne < FWC
         convf = QE
         PrintPlease = True
         if PrintPlease == True:                 #If you want the indexes set PrintPlease to False
@@ -157,26 +153,22 @@ class detectionPhase(initIsm):
         :return: toa in e- including bad & dead pixels
         """
         #TODO
-        #1. Calculate the number of pixels affected
         n_col, n_row = np.shape(toa)
         size_toa = n_col*n_row
         n_pix_bad = n_col*(0.01*bad_pix)
         n_pix_dead = n_col*(0.01*dead_pix)
-        #2. Assign these index locations with these relations, where toa_act is the number of
-        #pixels in the across-track direction, and step bad and dead are the evenly distributed
-        #steps (size_toa/n_pix).
         toa_act = n_row                                      #Number of pixels in the across-track direction
         step_bad = int(size_toa/n_pix_bad)
         step_dead = int(size_toa/n_pix_dead)
         idx_bad = range(5, toa_act, step_bad)
         idx_dead = range(0, toa_act, step_dead)
 
-        #3. Apply the reduction factor to the DNS
+
         for i in range(len(idx_bad)):
-            toa[:, idx_bad[i]] = toa[:, idx_bad[i]]*(1-bad_pix_red)   #CHECK THIS IS THE CORRECT WAY
+            toa[:, idx_bad[i]] = toa[:, idx_bad[i]]*(1-bad_pix_red)
         for j in range(len(idx_dead)):
-            toa[:, idx_dead[j]] = toa[:, idx_dead[j]]*(1-dead_pix_red)  #CHECK THIS IS THE CORRECT WAY
-        #4. Save to file (an ASCII txt file for example), the indexes, for validation purposes.
+            toa[:, idx_dead[j]] = toa[:, idx_dead[j]]*(1-dead_pix_red)
+
 
         index_bad = np.arange(5, toa_act, step_bad)
         index_dead = np.arange(0, toa_act, step_dead)
@@ -197,7 +189,6 @@ class detectionPhase(initIsm):
         :param kprnu: multiplicative factor to the standard normal deviation for the PRNU
         :return: TOA after adding PRNU [e-]
         """
-        #TODO
         n_row, n_col = np.shape(toa)
         n_act = n_col
         act = np.arange(1, n_act+1, 1)
@@ -225,7 +216,6 @@ class detectionPhase(initIsm):
         :param ds_B_coeff: Empirical parameter of the model 6040 K
         :return: TOA in [e-] with dark signal
         """
-        #TODO
 
         n_col, n_row = np.shape(toa)
         n_act = n_col

@@ -61,8 +61,6 @@ class l1b(initL1b):
         :param eq_mult: Gain factor, adimensional
         :return: TOA in DN, equalized
         """
-        #TODO
-        #toa_out = toa
         toa_out = (toa - eq_add)/(eq_mult)
         return toa_out
 
@@ -73,15 +71,6 @@ class l1b(initL1b):
         :param gain: gain in [rad/DN]
         :return: TOA in radiances [mW/sr/m2]
         """
-        #TODO
         self.logger.debug('Sanity check. TOA in radiances after gain application ' + str(toa[1,-1]) + ' [mW/m2/sr]')
-        toa = toa*gain #Shouldn't toa be toa_out?
-        return toa #Should toa actually be toa_l1b?
-
-  #  def plotL1bToa(self, toa_l1b, outputdir, band):
-   #     plt.plot(toa, act???, toa_out, act???)
-    #    plt.xlabel("ACT Pixel [-]")
-     #   plt.ylabel("TOA [mw/m2/sr]")
-      #  plt.title("Effect of the Equalization for the", band)
-       # plt.show()
-        #TODO
+        toa = toa*gain
+        return toa
