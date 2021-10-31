@@ -1,0 +1,286 @@
+commit bfcc1c74c5fd58a691a76d74a59cfada8bf8cc08
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Sun Oct 31 16:12:48 2021 +0100
+
+    Cleaning up code, and executing E2E TLS
+
+commit 725d07f624894910c538d5fa295888d8ca2e4055
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Sun Oct 31 15:38:59 2021 +0100
+
+    Cleaning up code, and executing E2E TLS
+
+commit 02350cbfc4f38c7368ec690a8f84ec8f3ef1b519
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Sun Oct 31 14:52:07 2021 +0100
+
+    Cleaning up code.
+
+commit 278cae5909ac023628e54ba5a05fd5f0f24f727b
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Sun Oct 31 14:50:38 2021 +0100
+
+    E2E TLS test configuration.
+
+commit e680038d3b89e0790e62e39d84d8ff85fa0678c2
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Sat Oct 30 22:06:25 2021 +0200
+
+    Changes to the detection and video chain for testing purposes.
+
+commit 24d3c72106b6d994ab51beadd69799cee991b410
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 29 16:53:47 2021 +0200
+
+    video Chain test
+
+commit ef42bdc1083ebbc65a81eebcf2dac73dfbe7f1fb
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 29 16:37:58 2021 +0200
+
+    Changes during lesson 29th October 2021 - fixing detection phase and  the video Chain
+
+commit bdbb03a1fd21af0dc54359b67675d24f441b6ba4
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 28 18:41:23 2021 +0200
+
+    Changes during lesson 28th October 2021
+
+commit 8ca78ccbea63c9144f2b2f7bbf749f6321ebff9b
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 28 16:08:20 2021 +0200
+
+    Geometry terminal for copy paste not working in VM
+
+commit 9ea9024793fed54c99088e0ede304bc9b9c18fcb
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 28 15:17:31 2021 +0200
+
+    Geometry terminal for copy paste not working in VM
+
+commit 50a69d81e83929b938c06a5bb0657e83456a702c
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 28 14:30:10 2021 +0200
+
+    Geometry terminal for copy paste not working in VM
+
+commit e1cb975310b65e6aa53e8521e1b90e7717277b98
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 28 13:56:02 2021 +0200
+
+    Geometry terminal for copy paste not working in VM
+
+commit d9130ffe41e75620a975f0ee42c28139319b94f1
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 28 13:47:06 2021 +0200
+
+    Geometry terminal for copy paste not working in VM
+
+commit 9b27d6628d46b460eb077cd8e0436f4bfe024bd8
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Wed Oct 27 16:35:27 2021 +0200
+
+    small changes
+
+commit 61f9be11eea181d784e69cbb56a2283f7b273ec7
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Tue Oct 26 12:08:14 2021 +0200
+
+    Changes for writing report of Optical Stage
+
+commit f17bc8906429e7a52a5a9b30b897122fa5182f7b
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Mon Oct 25 14:21:13 2021 +0200
+
+    Correction of the l1b test
+
+commit b97cdf868ae7a6544379b49a3c5411dfd6bb036d
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Mon Oct 25 14:08:57 2021 +0200
+
+    Correction of the l1b test
+
+commit c844f56785e58bfa6329cbb9bec3b3ad657f8163
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Mon Oct 25 13:30:50 2021 +0200
+
+    Correction of the l1b test
+
+commit 96b3e3cc7ac8c3d7bb7595582582515a8c77035b
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 22 16:54:48 2021 +0200
+
+    detection phase.
+
+commit 15dfcbc5b2dbc498d66aa4b60fbba6a3ef0d65dc
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 22 16:14:42 2021 +0200
+
+    Completion of L1C test code.
+
+commit 3c7f0cccf6ed147ba64e3e7c1a607ee515305c50
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 22 15:37:12 2021 +0200
+
+    Completion of L1C implementation
+
+commit 76639347b791d6202eaa4687ec0b2ca1e6bd3030
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 22 15:25:43 2021 +0200
+
+    Changes during EODP lecture/help-session 22nd October 2021, on the mainL1b.py file paths.
+
+commit 09bb12963ff32a2a8afb9e1de968938c1c17365d
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 21 18:38:55 2021 +0200
+
+    Changes during EODP lecture on the L1C implementation - 21st October 2021; first half of class 18:39
+
+commit 5e725b5c64493ba70a207ed13a50a8674623362a
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Wed Oct 20 15:55:00 2021 +0200
+
+    Changes during pre-Business midterm 20th October 2019 - identification of problems within detectionPhase.py
+
+commit 20d4790d11d3029a695bfa73c704a0b9bb934429
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Tue Oct 19 18:04:33 2021 +0200
+
+    Changes during Robotics lecture 19th October 2019 - completion of the Optical Phase Test Procedure
+
+commit 429c175efb8061dfc6a08d2f137020a1631ec7ed
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Tue Oct 19 17:50:05 2021 +0200
+
+    Changes during Robotics lecture 19th October 2019 - completion of the Optical Phase Test Procedure
+
+commit c32e906b3fca814229999deff26c7b8c4528de1d
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Tue Oct 19 17:23:48 2021 +0200
+
+    Changes during Robotics lecture 19th October 2019 - finishing the Optical Phase test procedure
+
+commit 8f99d38047d8682e953a20e900d9d89da4f9c89c
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Mon Oct 18 14:31:31 2021 +0200
+
+    Changes from lunchtime 18th October 2019 - some quick work on the Optical Phase test procedure.
+
+commit a4556b6eba78ab2781c14f99bc1743707c795d79
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Oct 15 19:00:18 2021 +0200
+
+    Changes from EODP class 15th October 2021
+
+commit 99fc4d931d14a3a7066b48d05dade3c94caa2ad0
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 14 19:06:25 2021 +0200
+
+    Changes from Thursday's session
+
+commit d8ccb34f1735b348b8f8471fe224d11b2c4263ca
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Thu Oct 14 18:28:46 2021 +0200
+
+    Changes from Thursday 14th October 2021 mark 2
+
+commit b483e02d06875d1d25d4bf07377d34db3b9ec656
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Thu Oct 14 14:44:12 2021 +0200
+
+    Changes from Thursday 14th October 2021 mark 1
+
+commit b50eef3c26f1f27b6ebe94afaae02288bdbbba36
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Sun Oct 10 20:30:34 2021 +0200
+
+    Changes from Sunday 10th October 2021 mark 3
+
+commit 9eafb507d4087775d515da5958cacf66dfb4b562
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Sun Oct 10 20:03:02 2021 +0200
+
+    Changes from Sunday 10th October 2021 mark 2
+
+commit 9308a3e49ac23f6883c9878affc3377cc92b1805
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Sun Oct 10 18:11:23 2021 +0200
+
+    Changes from Sunday 10th October 2021
+
+commit ba57fc160cc292ba4b30af2b30709fbadd4aeac4
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Fri Oct 8 16:55:13 2021 +0200
+
+    Changes from Session Friday 8th October 2021
+
+commit 2a43f12dff391e73ead0499fa6e44e19223cadca
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Fri Oct 8 16:13:09 2021 +0200
+
+    Comments
+
+commit 8f3ef823eed0f98e9ad6191eab169fba716e167e
+Merge: 561320b 9a04938
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Fri Oct 8 15:52:50 2021 +0200
+
+    Merge remote-tracking branch 'origin/master'
+
+commit 561320bd5b955c91b2b742d9593f4ea28923620a
+Merge: 70e3d5b 7104194
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Thu Oct 7 19:16:25 2021 +0200
+
+    Added graphs
+
+commit 9a04938cc864e1180207ffdc36aa4e69099db05e
+Merge: 70e3d5b 7104194
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Thu Oct 7 19:16:25 2021 +0200
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       l1b/test/test_l1b.py
+
+commit 70e3d5ba028837e99316a5abcc8f33c1a193f443
+Merge: 885dcae b75284b
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Thu Oct 7 19:03:36 2021 +0200
+
+    Comments
+
+commit 7104194716575ca5598dfcfd06c616eca3851f04
+Merge: 885dcae b75284b
+Author: JvanZyl1 <J.R.vanZyl@student.tudelft.nl>
+Date:   Thu Oct 7 19:03:36 2021 +0200
+
+    Merge remote-tracking branch 'origin/master'
+    
+    # Conflicts:
+    #       l1b/test/test_l1b.py
+
+commit 885dcae1d18e4c7c62e4a1ae00e9c7529fe35d16
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 7 18:08:35 2021 +0200
+
+    Changing from Virtual Machine based to Windows based
+
+commit b75284bc65131b5a4ac6c671ef3a278eac79df0d
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Oct 7 18:08:35 2021 +0200
+
+    test
+
+commit d428d3ab711e5b5e74cfd0d953b3e52cee789bd0
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Thu Sep 23 18:58:30 2021 +0200
+
+    test
+
+commit 991b226d9c5354c6b19ee65bcde794697715eb82
+Author: luss <lucia.soto@deimos-space.com>
+Date:   Fri Sep 17 15:55:56 2021 +0200
+
+    test
