@@ -164,23 +164,23 @@ Process finished with exit code 0
 
 %%E2E running - geometry terminal
 
-luss@luss-VirtualBox:~/EODP/eodp_gm_master/bin$ ./geometry_module ../conf/gm_local_conf.xml /home/luss/my_shared_folder/gm_test
+luss@luss-VirtualBox:~/EODP/eodp_gm_master/bin$ ./geometry_module ../conf/gm_local_conf_tls.xml /home/luss/my_shared_folder/gm_test
 [I] bin directory ./geometry_module
 [I] Application directory ./
-[I] Reading local configuration file '../conf/gm_local_conf.xml
+[I] Reading local configuration file '../conf/gm_local_conf_tls.xml
 [I] Start processing of the Geometry Module
 [D] GeometryModule::processModule
 [I] Load the Geometry Module Configuration
-[I] Configuration: 'Global/simulation_epoch' = array[2] = {2019-09-14 10:36:13.470081 etc}'.
-[I] Configuration: 'Global/orbit_propag_time' = '20'.
-[I] Configuration: 'Global/t_sampl' = '0.00672'.
-[I] Configuration: 'Global/focal_length' = '0.5262'.
-[I] Configuration: 'Global/n_pix' = '1000'.
+[I] Configuration: 'Global/simulation_epoch' = array[2] = {2019-09-26 10:25:57.846905 etc}'.
+[I] Configuration: 'Global/orbit_propag_time' = '40.703'.
+[I] Configuration: 'Global/t_sampl' = '0.0428'.
+[I] Configuration: 'Global/focal_length' = '0.2345'.
+[I] Configuration: 'Global/n_pix' = '525'.
 [I] Configuration: 'Global/focal_plane_alt' = '0'.
-[I] Configuration: 'Global/pix_size' = '3e-05'.
+[I] Configuration: 'Global/pix_size' = '4.2e-05'.
 [I] Configuration: 'auxiliary_data_files/dem_config_file' = '../auxiliary/dem_config.xml'.
 [I] Configuration: 'auxiliary_data_files/iers_bulletin' = './../auxiliary/iersa_bulletin_aug2019.txt'.
-[I] Configuration: 'auxiliary_data_files/orbit_config' = './../auxiliary/osf_sentinel2a.xml'.
+[I] Configuration: 'auxiliary_data_files/orbit_config' = './../auxiliary/s3_osf.xml'.
 [I] Configuration: 'output_filenames/real_orbit_file' = 'real_orbit'.
 [I] Configuration: 'output_filenames/real_attitude_file' = 'real_attitude'.
 [I] Configuration: 'output_filenames/grid_file' = 'geolocation'.
@@ -191,28 +191,28 @@ luss@luss-VirtualBox:~/EODP/eodp_gm_master/bin$ ./geometry_module ../conf/gm_loc
 [D] Initialise the Time ID.
 [D] Initialise the Orbit ID.
 [D] N files: 1
-[D] Orbit file: ./../auxiliary/osf_sentinel2a.xml
-[D] OrbitId validity times val_time0: 4561.94 val_time1 36524
+[D] Orbit file: ./../auxiliary/s3_osf.xml
+[D] OrbitId validity times val_time0: 5915.91 val_time1 36524
 [D] Initialise the Satellite Nominal Attitude ID.
 [D] Initialise the Satellite Attitude ID.
 [D] Initialise the Instrument Attitude ID.
 [D] Initialise the Atmosphere ID.
 [D] Initialise the DEM ID.
 [D] Initialise the Target ID.
-[D] simulation_epoch 2019-09-14_10:36:13.470081 in MJD2000 (UTC) 7196.44182257038
-[D] Sampling time in seconds 0.00672
-[I] Number of times : 2976. (Detector sampling time= 0.00672 and acquisition duration in sec=20
-[D] Start of the acquisition 2019-09-14_10:36:13.470081. In MJD2000 7196.44182257038
-[D] End of the acquisition 2019-09-14_10:36:33.462081. In MJD2000 7196.44205395927
+[D] simulation_epoch 2019-09-26_10:25:57.846905 in MJD2000 (UTC) 7208.43469730214
+[D] Sampling time in seconds 0.0428
+[I] Number of times : 951. (Detector sampling time= 0.0428 and acquisition duration in sec=40.703
+[D] Start of the acquisition 2019-09-26_10:25:57.846905. In MJD2000 7208.43469730214
+[D] End of the acquisition 2019-09-26_10:26:38.506905. In MJD2000 7208.43516790399
 [D] Auxiliary file for debug written /home/luss/my_shared_folder/gm_test/focal_plane.txt
 [D] Calculation of the mean orbital parameters.
-[D] pos/vel ECEF: [ 6115820.82224225, 394404.317657868, 3711823.25535263, 3918.93236012711, -1497.09908751976, -6278.54308988304 ]
-[D] pos/vel TOD: [ -5592703.23747673, 2506082.14646027, 3711828.89520059, -2949.64821762027, 2745.53259202822, -6278.53666516225 ]
-[I] Mean Keplerian Parameters TOD [m,-,deg^4]: [ 7164273.85260334, 0.00114599999117854, 98.5695709862477, 330.622875497298, 89.9981349599782, 58.3005973786067 ]
+[D] pos/vel ECEF: [ 5173983.99093074, 167564.403848391, 4970296.6095096, 5115.69681131383, -1762.77846067137, -5252.61364882211 ]
+[D] pos/vel TOD: [ -4957924.77957771, 1489000.23290226, 4970301.47383572, -4396.46734982761, 2938.74166943776, -5252.60588547154 ]
+[I] Mean Keplerian Parameters TOD [m,-,deg^4]: [ 7177942.15593861, 0.00114599999102972, 98.6272467504432, 334.901844199796, 89.9977699490964, 45.4461010565815 ]
 [I] NCMAP: Loading map file './../auxiliary/real_grid_ncmap.xml'.
 [I] NCMAP: Created netcdf file geolocation.nc
 [D] Writing the CCD info
-[D] Grid shape: [2976][1000]
+[D] Grid shape: [951][525]
 [D] Finished writing to file the RealGridFile product
 [D] Finished writing to file the Real Orbit file
 [D] Finished writing to file the Real Attitude file
