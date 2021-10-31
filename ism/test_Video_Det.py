@@ -51,7 +51,6 @@ for i in range(len(band)):
     toa_restored = readToa('/home/luss/my_shared_folder/EODP_TER_2021/EODP-TS-ISM/test', 'ism_toa_' + band[i] + '.nc')
     isrf_row.append(np.sum(toa_isrf, axis=0))
     l1b_row.append(np.sum(toa_restored, axis=0))
-    print(np.shape(l1b_row))
 
 
 Q3 = True #If you want the Q3
